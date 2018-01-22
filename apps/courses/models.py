@@ -16,7 +16,7 @@ class Course(models.Model):
     degree_choices = (
         (0, "初级"),
         (1, "中级"),
-        (3, "高级"),
+        (2, "高级"),
     )
     degree = models.SmallIntegerField(choices=degree_choices, verbose_name="难度")
     learn_times = models.IntegerField(default=0, verbose_name="学习时长（分钟数）")
