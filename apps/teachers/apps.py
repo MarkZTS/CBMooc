@@ -6,4 +6,4 @@ from django.apps import AppConfig
 
 class TeachersConfig(AppConfig):
     name = 'teachers'
-    verbose_name = u"讲师信息"
+    verbose_name = "讲师信息"
