@@ -34,6 +34,7 @@ class EmailVerifyRecord(models.Model):
     send_type_choices = (
         (0, "注册"),
         (1, "找回密码"),
+        (2, "修改邮箱"),
     )
     send_type = models.CharField(choices=send_type_choices, max_length=10, verbose_name="发送类型")
     send_time = models.DateTimeField(default=datetime.now, verbose_name="发送时间") # 去掉now括号，根据实例化的时间生成，不然就是根据数据库生成的时间生成

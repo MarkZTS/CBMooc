@@ -14,7 +14,10 @@ from CBMooc.settings import EMAIL_FROM
 
 def send_register_email(email, send_type=0):
     email_record = EmailVerifyRecord()
-    random_str = generate_random_str(16)
+    if send_type == 2:
+        random_str = generate_random_str(4)
+    else:
+        random_str = generate_random_str(16)
     email_record.code = random_str
     email_record.email = email
     email_record.send_type = send_type
@@ -33,6 +36,13 @@ def send_register_email(email, send_type=0):
     elif send_type == 1:# 发送类型为忘记密码
         email_title = "畅编网密码重置链接"
         email_body = "请在一个小时以内点击下面的链接重置你的密码：http://127.0.0.1:8000/reset/{0}".format(random_str)
+
+        send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
+        if send_status:
+            pass
+    elif send_type == 2:# 发送类型为修改邮箱
+        email_title = "畅编网邮箱修改验证码"
+        email_body = "你的验证码为：{0}".format(random_str)
 
         send_status = send_mail(email_title, email_body, EMAIL_FROM, [email])
         if send_status:
