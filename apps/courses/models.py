@@ -24,6 +24,7 @@ class Course(models.Model):
     students = models.IntegerField(default=0, verbose_name="学习人数")
     fav_nums = models.IntegerField(default=0, verbose_name="收藏人数")
     image = models.ImageField(upload_to="courses/%Y/%m", verbose_name="封面图", max_length=128)
+    is_banner = models.BooleanField(default=False, verbose_name="是否轮播")
     click_nums = models.IntegerField(default=0, verbose_name="点击数")
     category = models.CharField(max_length=20, verbose_name="课程类别", default="后端开发")
     course_known = models.CharField(max_length=300, verbose_name="课程须知", default="")

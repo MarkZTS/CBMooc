@@ -7,6 +7,7 @@ from django.db.models import Q
 from .models import Course, CourseResource
 from operation.models import UserFavorite, CourseComment, UserCourse
 from utils.mixin_utils import LoginRequiredMixin
+from teachers.models import Teacher
 
 # Create your views here.
 
@@ -83,6 +84,8 @@ class CourseInfoView(LoginRequiredMixin, View):
     '''课程章节信息'''
     def get(self, request, course_id):
         course = Course.objects.get(id=int(course_id))
+        course.students += 1
+        course.save()
 
         # 查询用户是否已经关联了该课程
         user_courses = UserCourse.objects.filter(user=request.user, course=course)
@@ -132,6 +135,18 @@ class AddFavView(View):
         if exist_records:
             # 记录已经存在，用户取消收藏
             exist_records.delete()
+            if int(fav_type) == 1:
+                course = Course.objects.get(id=int(fav_id))
+                course.fav_nums -= 1
+                if course.fav_nums < 0:
+                    course.fav_nums = 0
+                course.save()
+            elif int(fav_type) == 2:
+                teacher = Teacher.objects.get(id=int(fav_id))
+                teacher.fav_nums -= 1
+                if teacher.fav_nums < 0:
+                    teacher.fav_nums = 0
+                teacher.save()
             return HttpResponse('{"status":"success", "msg":"收藏"}', content_type='application/json')
         else:
             user_fav = UserFavorite()
@@ -140,6 +155,15 @@ class AddFavView(View):
                 user_fav.fav_id = int(fav_id)
                 user_fav.fav_type = int(fav_type)
                 user_fav.save()
+
+                if int(fav_type) == 1:
+                    course = Course.objects.get(id=int(fav_id))
+                    course.fav_nums += 1
+                    course.save()
+                elif int(fav_type) == 2:
+                    teacher = Teacher.objects.get(id=int(fav_id))
+                    teacher.fav_nums += 1
+                    teacher.save()
                 return HttpResponse('{"status":"success", "msg":"已收藏"}', content_type='application/json')
             else:
                 return HttpResponse('{"status":"fail", "msg":"收藏出错"}', content_type='application/json')
