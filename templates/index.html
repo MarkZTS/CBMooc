@@ -59,7 +59,7 @@
                 <div class="module1_1 left">
                     <img width="228" height="614" src="{% static 'images/module1_1.jpg' %}"/>
                     <p class="fisrt_word">名师授课<br/>专业权威</p>
-                    <a class="more" href="course-list.html">查看更多课程 ></a>
+                    <a class="more" href="{% url 'course:course_list' %}">查看更多课程 ></a>
                 </div>
                 <div class="right group_list">
                     <div class="module1_2 box">
@@ -69,7 +69,7 @@
                                     <li>
                                         <a href="{% url 'course:course_detail' course_banner.id %}">
                                             <img width="470" height="300"
-                                                 src="{{ course_banner.image }}"/>
+                                                 src="{{ MEDIA_URL }}{{ course_banner.image }}"/>
                                         </a>
                                     </li>
                                 {% endfor %}

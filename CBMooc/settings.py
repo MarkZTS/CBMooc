@@ -24,13 +24,17 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'apps'))
 SECRET_KEY = '271lp!$babeb+ddu#n4ale#eijjx(toahma=e#_)v64n%rgei1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 AUTHENTICATION_BACKENDS = (
     'users.views.CustomBackend',
+    'social_core.backends.weibo.WeiboOAuth2',
+    'social_core.backends.weixin.WeixinOAuth2',
+    'social_core.backends.qq.QQOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 # Application definition
@@ -50,6 +54,7 @@ INSTALLED_APPS = [
     'operation',
     'captcha',
     'pure_pagination',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -76,7 +81,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -152,5 +159,22 @@ EMAIL_FROM = "zts_75@163.com"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 # 自定义model
 AUTH_USER_MODEL = "users.UserProfile"
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+# 第三方登陆key和secret
+SOCIAL_AUTH_WEIBO_KEY = '1281568277'
+SOCIAL_AUTH_WEIBO_SECRET = 'd6d3302f3458753ce628811583eace95'
+
+SOCIAL_AUTH_WEIXIN_KEY = 'foobar'
+SOCIAL_AUTH_WEIXIN_SECRET = 'bazqux'
+
+SOCIAL_AUTH_QQ_KEY = 'foobar'
+SOCIAL_AUTH_QQ_SECRET = 'bazqux'
+
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = 'index'

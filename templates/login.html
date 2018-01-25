@@ -125,8 +125,8 @@
                     <span>其它方式登录</span>
                     <a id="i6" href="#" class="com login_1" onmouseover="t1(9);"></a>
                     <a id="i7" href="#" class="com login_3 hide" onmouseout="t2(10);"></a>
-                    <a id="i8" href="#" class="com login_2" onmouseover="t1(11);"></a>
-                    <a id="i9" href="#" class="com login_4 hide" onmouseout="t2(12);"></a>
+                    <a id="i8" href="{% url 'social:begin' 'weibo' %}" class="com login_2" onmouseover="t1(11);"></a>
+                    <a id="i9" href="{% url 'social:begin' 'weibo' %}" class="com login_4 hide" onmouseout="t2(12);"></a>
                 </div>
                 <p class="form-p">没有慕学在线网帐号？<a href="register.html">[立即注册]</a></p>
             </div>
