@@ -70,7 +70,7 @@
 
     <div class="middle">
         <div class="wp">
-            <a href="index.html"><img class="fl" src="../images/logo2.png"/></a>
+            <a href="index.html"><img class="fl" src="{% static 'images/logo2.png' %}"/></a>
             <h1>我的慕学网</h1>
         </div>
     </div>
@@ -97,14 +97,15 @@
 	<div class="wp list personal_list">
 	<div class="left">
         <ul>
-            <li class="active2"><a href="{% url 'users:user_info' %}">个人资料</a></li>
-            <li ><a href="{% url 'users:mycourse' %}">我的课程</a></li>
-            <li ><a href="{% url 'users:myfav_teacher' %}">我的收藏</a></li>
-            <li >
+            <li {% if request.path|slice:'12' == '/users/info/' %}class="active2"{% endif %}><a href="{% url 'users:user_info' %}">个人资料</a></li>
+            <li {% if request.path|slice:'16' == '/users/mycourse/' %}class="active2"{% endif %}><a href="{% url 'users:mycourse' %}">我的课程</a></li>
+            <li {% if request.path|slice:'13' == '/users/myfav/' %}class="active2"{% endif %}><a href="{% url 'users:myfav_teacher' %}">我的收藏</a></li>
+            <li {% if request.path|slice:'17' == '/users/mymessage/' %}class="active2"{% endif %}>
                 <a href="{% url 'users:mymessage' %}" style="position: relative;">
                     我的消息
                 </a>
             </li>
+            <li {% if request.path|slice:'14' == '/users/mywork/' %}class="active2"{% endif %}><a href="{% url 'users:mywork' %}">我的作业</a></li>
         </ul>
 	</div>
 

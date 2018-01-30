@@ -8,6 +8,7 @@ from django.conf.urls import url
 
 from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView
 from .views import UpdateEmailView, MyCourseView, MyFavTeacherView, MyFavCourseView, MymessageView
+from .views import MyworkView
 
 urlpatterns = [
     # 用户信息
@@ -28,4 +29,6 @@ urlpatterns = [
     url(r'^myfav/course/$', MyFavCourseView.as_view(), name="myfav_course"),
     # 我的消息
     url(r'^mymessage/$', MymessageView.as_view(), name="mymessage"),
+    # 我的作业
+    url(r'^mywork/$', MyworkView.as_view(), name="mywork"),
 ]

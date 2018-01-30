@@ -14,6 +14,7 @@ class Teacher(models.Model):
     work_company = models.CharField(max_length=64, verbose_name="就职公司")
     work_position = models.CharField(max_length=64, verbose_name="公司职位")
     character = models.CharField(max_length=64, verbose_name="教学特点")
+    age = models.IntegerField(default=20, verbose_name="年龄")
     fav_nums = models.IntegerField(default=0, verbose_name="收藏人数")
     click_nums = models.IntegerField(default=0, verbose_name="点击数")
     avatar = models.ImageField(max_length=128, upload_to="teacher/%Y/%m", default="teacher/default.png",verbose_name="用户头像")

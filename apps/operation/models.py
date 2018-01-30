@@ -71,3 +71,15 @@ class UserCourse(models.Model):
     class Meta:
         verbose_name = "用户课程"
         verbose_name_plural = verbose_name
+
+
+class UserTeacher(models.Model):
+    '''用户或者讲师'''
+    user = models.ForeignKey(UserProfile, verbose_name="用户")
+    teacher = models.ForeignKey(Teacher, verbose_name="讲师")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = "讲师用户"
+        verbose_name_plural = verbose_name
+

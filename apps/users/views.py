@@ -16,7 +16,7 @@ from .forms import LoginForm, RegisterFrom, ForgetPwdFrom, ModifyPwdFrom, Upload
 from .forms import UserInfoForm
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin
-from operation.models import UserCourse, UserFavorite, UserMessage
+from operation.models import UserCourse, UserFavorite, UserMessage, UserTeacher
 from teachers.models import Teacher
 from courses.models import Course
 
@@ -283,6 +283,20 @@ class MymessageView(LoginRequiredMixin, View):
         messages = p.page(page)
 
         return render(request, 'usercenter-message.html', {"messages":messages})
+
+
+class MyworkView(LoginRequiredMixin, View):
+    '''我的作业, 同时作为老师个人中心带点评作业查看项'''
+    def get(self, request):
+        # 查询用户是否是老师
+        try:
+            teacher = UserTeacher.objects.get(user=request.user).teacher
+            print(teacher)
+        except UserTeacher.DoesNotExist:
+            print("123")
+            return render(request, 'usercenter-mywork.html')
+        else:
+            return render(request, 'usercenter-teacher-mywork.html', {})
 
 
 class IndexView(View):
