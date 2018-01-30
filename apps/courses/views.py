@@ -40,6 +40,7 @@ class CourseListView(View):
         p = Paginator(all_course, 3, request=request)
 
         courses = p.page(page)
+        print(type(courses))
 
         return render(request, 'course-list.html', {
             "all_course":courses,

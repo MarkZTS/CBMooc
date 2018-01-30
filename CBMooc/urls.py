@@ -20,7 +20,7 @@ import xadmin
 from django.views.static import serve
 
 from users.views import LogoutView, LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
-from CBMooc.settings import MEDIA_ROOT, STATIC_ROOT
+from CBMooc.settings import MEDIA_ROOT
 from users.views import IndexView
 
 urlpatterns = [
@@ -42,7 +42,7 @@ urlpatterns = [
     url(r'^media/(?P<path>.*)$', serve, {"document_root":MEDIA_ROOT}),
 
 
-    url(r'^static/(?P<path>.*)$', serve, {"document_root":STATIC_ROOT}),
+    # url(r'^static/(?P<path>.*)$', serve, {"document_root":STATIC_ROOT}),
 
     # 用户相关url配置
     url(r'^users/', include('users.urls', namespace="users")),
