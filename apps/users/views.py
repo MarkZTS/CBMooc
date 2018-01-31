@@ -313,7 +313,7 @@ class IndexView(View):
         })
 
 
-class OnlineCodeView(View):
+class OnlineCodeView(LoginRequiredMixin, View):
     '''在线编程'''
     def get(self, request):
         return render(request, 'onlinecode.html', {})
@@ -323,9 +323,11 @@ class OnResultView(View):
     '''在线编程结果'''
     def post(self, request):
         edit_value = request.POST.get('edit', '')
+        print(type(edit_value))
         print(edit_value)
 
-        result = compile(edit_value,'<string>', 'exec')
+        # result = compile(edit_value,'<string>', 'exec')
+        result = exec(edit_value)
 
         print(type(result))
         print('{"result":"%s"}'%result)
