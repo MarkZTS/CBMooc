@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'codemirror-5.34.0/lib/codemirror.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.css' %}">
+    <!--主题-->
+    <link rel="stylesheet" href="{% static 'codemirror-5.34.0/theme/duotone-light.css' %}">
+    <script src="{% static 'codemirror-5.34.0/lib/codemirror.js' %}"></script>
+    <!--代码高亮-->
+    <script src="{% static 'codemirror-5.34.0/mode/python/python.js' %}"></script>
+    <!--代码折叠-->
+    <link rel="stylesheet" href="{% static 'codemirror-5.34.0/addon/fold/foldgutter.css' %}">
+    <script src="{% static 'codemirror-5.34.0/addon/fold/foldcode.js' %}"></script>
+    <script src="{% static 'codemirror-5.34.0/addon/fold/foldgutter.js' %}"></script>
+    <script src="{% static 'codemirror-5.34.0/addon/fold/brace-fold.js' %}"></script>
+    <script src="{% static 'codemirror-5.34.0/addon/fold/comment-fold.js' %}"></script>
+
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+</head>
+<body>
+
+<div class="alert alert-success">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-1">
+            <a class="btn btn-success" href="{% url 'index' %}">
+                 <i class="fa fa-arrow-left" aria-hidden="true"></i>
+                返回首页
+            </a>
+
+        </div>
+        <div class="col-md-2" style="text-align: center;">
+            <span style="font-size: 22px;">畅编网在线编程练习</span>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-5 col-md-offset-1">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">源代码：</h3>
+                </div>
+                <div class="panel-body">
+                    <textarea class="form-control" id="print_code" name="print_code"></textarea>
+                </div>
+            </div>
+            <button type="button" class="btn btn-default" id="editor-button">点击运行</button>
+    </div>
+    <div class="col-md-5">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">运行结果：</h3>
+            </div>
+            <div class="panel-body">
+                <textarea class="form-control" id="show_code" name="show_code"></textarea>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //根据DOM元素的id构造出一个编辑器
+    var editor = CodeMirror.fromTextArea(document.getElementById("print_code"), {
+        mode: "text/x-python",
+        lineNumbers: true,	//显示行号
+        theme: "duotone-light",	//设置主题
+        lineWrapping: true,	//代码折叠
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        matchBrackets: true,	//括号匹配
+        indentUnit: 4
+
+    });
+    editor.setSize('', '450px');     //设置代码框的长宽
+    editor.setValue("#!/usr/bin/python\n");    //给代码框赋值
+{#    editor.getValue();    //获取代码框的值#}
+
+    var show = CodeMirror.fromTextArea(document.getElementById("show_code"), {
+//        mode: "text/x-python",
+//        lineNumbers: true,	//显示行号
+        theme: "duotone-light",	//设置主题
+        lineWrapping: true,	//代码折叠
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+        matchBrackets: true,	//括号匹配
+        readOnly: true,
+        autofocus:false
+
+    });
+{#    show.setValue("运行结果");    //给代码框赋值#}
+    show.setSize('', '450px');     //设置代码框的长宽
+
+{#    ajax提交到后台#}
+    $('#editor-button').click(function () {
+        var text = editor.getValue();
+        $.ajax({
+            cache: false,
+            url: '{% url 'on_result' %}',
+            data: {'edit':text},
+            type: 'POST',
+            dataType: 'json',
+            async: true,
+            beforeSend:function(xhr, settings){
+                xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
+            },
+            success: function (data) {
+                console.log(data);
+                show.setValue(data.result);
+            }
+        })
+    })
+</script>
+</body>
+</html>

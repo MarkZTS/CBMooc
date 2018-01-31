@@ -313,6 +313,26 @@ class IndexView(View):
         })
 
 
+class OnlineCodeView(View):
+    '''在线编程'''
+    def get(self, request):
+        return render(request, 'onlinecode.html', {})
+
+
+class OnResultView(View):
+    '''在线编程结果'''
+    def post(self, request):
+        edit_value = request.POST.get('edit', '')
+        print(edit_value)
+
+        result = compile(edit_value,'<string>', 'exec')
+
+        print(type(result))
+        print('{"result":"%s"}'%result)
+        return HttpResponse('{"result":"%s"}'%result, content_type='application/json')
+
+
+
 def page_not_found(request):
     # 全局404处理函数
     from django.shortcuts import render_to_response

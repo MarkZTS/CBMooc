@@ -21,7 +21,7 @@ from django.views.static import serve
 
 from users.views import LogoutView, LoginView, RegisterView, ActiveUserView, ForgetPwdView, ResetView, ModifyPwdView
 from CBMooc.settings import MEDIA_ROOT
-from users.views import IndexView
+from users.views import IndexView, OnlineCodeView, OnResultView
 
 urlpatterns = [
     url(r'^xadmin/', xadmin.site.urls),
@@ -34,6 +34,12 @@ urlpatterns = [
     url(r'^forget/$', ForgetPwdView.as_view(), name="forget_pwd"),
     url(r'^reset/(?P<active_code>.*)/$', ResetView.as_view(), name="reset_pwd"),
     url(r'^modify/$', ModifyPwdView.as_view(), name="modify_pwd"),
+    # 在线编程
+    url(r'^online/$', OnlineCodeView.as_view(), name="online"),
+
+    # 在线编程结果
+    url(r'^on_result/$', OnResultView.as_view(), name="on_result"),
+
 
     # 课程url配置
     url(r'^course/', include('courses.urls', namespace="course")),
