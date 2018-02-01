@@ -112,7 +112,6 @@
                 xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
             },
             success: function (data) {
-                console.log(data);
                 show.setValue(data.result);
             }
         })

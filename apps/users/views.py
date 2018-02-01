@@ -16,6 +16,7 @@ from .forms import LoginForm, RegisterFrom, ForgetPwdFrom, ModifyPwdFrom, Upload
 from .forms import UserInfoForm
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin
+from utils import onlineEXEC
 from operation.models import UserCourse, UserFavorite, UserMessage, UserTeacher
 from teachers.models import Teacher
 from courses.models import Course
@@ -323,14 +324,9 @@ class OnResultView(View):
     '''在线编程结果'''
     def post(self, request):
         edit_value = request.POST.get('edit', '')
-        print(edit_value)
-
-        result = compile(edit_value,'<string>', 'exec')
-
-        print(type(result))
-        print('{"result":"%s"}'%result)
-        return HttpResponse('{"result":"%s"}'%result, content_type='application/json')
-
+        result = onlineEXEC.main(edit_value)
+        dic_result = {"result":result['output']}
+        return HttpResponse(json.dumps(dic_result), content_type='application/json')
 
 
 def page_not_found(request):
