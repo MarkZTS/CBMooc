@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}选择题详情页 - 趣学在线网{% endblock %}
+{% load staticfiles %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}"/>
+{% endblock %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <div class="crumbs">
+                <ul>
+                    <li><a href="/">首页</a>></li>
+                    <li><a href="{% url 'practice:practice_list' %}">在线练习</a>></li>
+                    <li><a href="{% url 'practice:practice_bank_detail' question_bank.id %}">题库详情</a>></li>
+                    <li>答题结果</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block content %}
+    <section style="font-size: 18px;min-height: 350px;overflow: auto">
+        <div class="wp">
+            <p>{{ question_bank.name }}</p>
+            <p style="padding: 25px 0;color: red;font-size: 23px">恭喜完成本章编程题练习</p>
+            <p style="color: red;font-size: 23px">业精于勤 荒于嬉(此处数据库中随机获取一条格言进行显示)</p>
+        </div>
+    </section>
+
+{% endblock %}
+
+
+{% block custom_js %}
+
+
+{% endblock %}

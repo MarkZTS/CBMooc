@@ -54,7 +54,8 @@ INSTALLED_APPS = [
     'operation',
     'captcha',
     'pure_pagination',
-    'social_django'
+    'social_django',
+    'practice',
 ]
 
 MIDDLEWARE = [

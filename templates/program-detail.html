@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block title %}选择题详情页 - 趣学在线网{% endblock %}
+{% load staticfiles %}
+{% block custom_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/question.css' %}"/>
+{% endblock %}
+{% block custom_bread %}
+    <section>
+        <div class="wp">
+            <div class="crumbs">
+                <ul>
+                    <li><a href="/">首页</a>></li>
+                    <li><a href="{% url 'practice:practice_list' %}">在线练习</a>></li>
+                    <li><a href="{% url 'practice:practice_bank_detail' question_bank.id %}">题库详情</a>></li>
+                    <li>开始练习-编程题</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+
+{% block content %}
+
+    <section style="min-height: 350px;overflow: auto;font-size: 16px">
+        <div class="wp">
+
+            <div class="question">
+
+
+                <div class="title"
+                     style="font-size: 16px">{{ question.question_num }}:&nbsp;{{ question.question_content }}</div>
+                <div style="padding: 10px 0 20px 0">&nbsp;
+                    {% if question.is_comment %}
+                        <div style="font-size: 18px;color: blue">老师可点评</div>{% endif %}
+                    {% if question.download %}
+                        <div style="font-size: 18px;color: blue">源码下载</div>{% endif %}
+                    {% if question.url %}
+                        <div style="font-size: 18px;color: blue">提供讲解视频</div>{% endif %}
+                </div>
+
+                <img width="440" height="300" src="{{ MEDIA_URL }}{{ question.image }}"/>
+
+                <div style="padding: 10px 0">
+                    <div style="color:#F00" id="show_detail"></div>
+                    <div class="collect" id="collect"><i></i>收藏本题</div>
+                    <div class="button-group" style="margin:0 0 0 -100px">
+                        <button class="questiontips" id="questiontips" style="background: #ff8b3d">查看解题思路</button>
+                        <button class="submit" id="submit">我已完成</button>
+                        {% if is_last_question %}
+                           <button class="complete" id="complete" style="display:none;;background: goldenrod">完成交卷</button>
+                        {% else %}
+                            <button class="complete" id="complete" style="display:none;background: goldenrod">提前交卷
+                            </button>
+                            <button class="next" id="next" style="display:none;">下一题</button>
+                        {% endif %}
+                        <button class="download" id="download" style="display:none;background: darkorange">参考源码下载
+                        </button>
+                        <button class="video" id="video" style="display:none;background: goldenrod">观看讲解视频</button>
+                        <button class="comment" id="comment" style="display:none;background: lightskyblue">请老师点评
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+
+{% block custom_js %}
+
+    <script src="{% static 'js/jquery.min.js' %}" charset="utf-8"></script>
+    <script>
+        $(function () {
+            //  点击收藏
+            $("#collect").on("click", function () {
+                $(this).toggleClass("collectok")
+            })
+            //  点击我已完成
+            $("#submit").on("click", function () {
+                //点击该按钮后 显示完成后用户可以看到的按钮
+                $('#complete').show();
+                $('#next').show();
+                $('#download').show();
+                $('#video').show();
+                $('#comment').show();
+                $('#submit').hide();
+                $('#questiontips').hide();
+            });
+            //  点击下一题
+            $("#next").on("click", function () {
+                window.location.href = "{% url 'practice:program_detail' practice_bank_id next_practice_num %}";
+            })
+            //  点击
+            $("#complete").on("click", function () {
+                window.location.href = "{% url 'practice:program_result' practice_bank_id question.question_num %}";
+            })
+             //  点击请老师点评  进入作业提交页面
+            $("#comment").on("click", function () {
+                window.location.href = "{% url 'practice:program_submit' question.id %}";
+            })
+        })
+    </script>
+{% endblock %}
