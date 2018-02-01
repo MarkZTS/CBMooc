@@ -314,7 +314,7 @@ class IndexView(View):
         })
 
 
-class OnlineCodeView(View):
+class OnlineCodeView(LoginRequiredMixin, View):
     '''在线编程'''
     def get(self, request):
         return render(request, 'onlinecode.html', {})
