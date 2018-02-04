@@ -1269,13 +1269,13 @@ textarea:focus {
     margin: 10px;
 }
 
-.successbox .cont {
-    background: url(../images/check2.png) no-repeat 0 center;
-    display: table;
-    width: auto;
-    height: 199px;
-    padding: 0;
-}
+/*.successbox .cont {*/
+    /*background: url(../images/check2.png) no-repeat 0 center;*/
+    /*display: table;*/
+    /*width: auto;*/
+    /*height: 199px;*/
+    /*padding: 0;*/
+/*}*/
 
 .failbox .cont {
     background: url(../images/check4.png) no-repeat 0 center !important;
@@ -6453,6 +6453,63 @@ footer .footer .line {
     width: 100%;
 }
 
+/*自定义样式*/
+.personal_des .myup {
+    border: 1px solid #eaeaea;
+    height: auto;
+    overflow: hidden;
+    width: 943px;
+    border-top: 0;
+}
+.personal_list .myup .right {
+    /*width: 700px !important;*/
+    height: 100%;
+    /*border-left: 1px solid #eaeaea;*/
+    font-size: 14px;
+    margin: 0;
+}
+
+.personal_list .myup .right > li, .inputs li {
+    height: 250px;
+    /*line-height: 150px;*/
+    border-bottom: 1px solid #eaeaea;
+    text-indent: 20px;
+    color: #a9a9a9;
+    position: relative;
+}
+
+.personal_list .myup .right > li {
+    /*float: left;*/
+    width: 100%;
+    text-align: center;
+}
+.personal_list .myup .right li input[type=text] {
+    color: #3d3d3d;
+    height: 35px;
+    line-height: 35px;
+    margin-left: 20px;
+    text-indent: 10px;
+    width: 350px;
+    background: #fafafa;
+}
+.personal_list .myup .right .url-btn {
+    cursor: pointer;
+    background: #717171;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    border: 0;
+    height: 37px;
+    width: 100px;
+    margin-left: 120px;
+    margin-top: 30px;
+}
+.personal_list .myup .right .in-1,.in-2,.in-3{
+    margin-top: 20px;
+}
+/*结束 */
+
+
 .personal_list .inforcon .li-col3 li {
     float: left;
     width: 33.3%;
@@ -8439,7 +8496,7 @@ table .upload-btn {
     -moz-border-radius: 2px;
     border-radius: 2px;
     color: #fff !important;
-    cursor: pointer;
+    /*cursor: pointer;*/
     text-align: center;
     text-indent: 0 !important;
 }
@@ -8454,6 +8511,7 @@ table .upload-btn {
 
 .btn-w100 {
     width: 100px;
+    cursor: pointer;
 }
 
 .btn-hei30 {

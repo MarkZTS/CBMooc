@@ -1,0 +1,98 @@
+{% extends 'usercenter-teacher-base.html' %}
+{% load staticfiles %}
+{% block title %}个人信息-畅编网{% endblock %}
+{% block bread %}
+    <section>
+        <div class="wp">
+            <ul  class="crumbs">
+                <li><a href="{% url 'index' %}">首页</a>></li>
+                <li><a href="{% url 'users:user_info' %}">个人中心</a>></li>
+                <li>我的上传</li>
+            </ul>
+        </div>
+    </section>
+{% endblock %}
+
+{% block right %}
+    <div class="right" >
+		<div class="personal_des Releasecont">
+			<div class="head">
+				<h1>我的上传</h1>
+			</div>
+
+		</div>
+		<div class="personal_des permessage">
+			<div class="head">
+				<ul class="tab_header messagehead">
+					<li class="active"><a href="/user/message/">视频URL</a> </li>
+					<li><a href="/user/message/">已传URL</a> </li>
+				</ul>
+
+
+			</div>
+			<div class="myup">
+				<form class="perinform" id="jsUrlUploadForm" autocomplete="off">
+					<ul class="right">
+						<li>视频URL：
+                           <input type="text" name="url_upload" id="url_upload" value="" maxlength="200" placeholder="http://www.baidu.com">
+                            <i class="error-tips"></i>
+                            <input class="url-btn" type="button" id="jsUrlUploadBtn" value="上传">
+                        </li>
+					</ul>
+				{% csrf_token %}
+                </form>
+			</div>
+		</div>
+
+	</div>
+{% endblock %}
+{% block custom_js %}
+    <script>
+        //保存教师上传URL
+    $('#jsUrlUploadBtn').on('click', function(){
+        alert("123");
+        var _self = $(this),
+            jsUrlUploadForm = $('#jsUrlUploadForm')
+            verify = verifySubmit(
+            [
+                {id: '#url_upload', tips: Dml.Msg.epUrl, require: true}
+            ]
+        );
+        if(!verify){
+           return;
+        }
+        $.ajax({
+            cache: false,
+            type: 'post',
+            dataType:'json',
+            url:"/users/myupload/",
+            data:jsUrlUploadForm.serialize(),
+            async: true,
+            beforeSend:function(XMLHttpRequest){
+                _self.val("上传中...");
+                _self.attr('disabled',true);
+            },
+            success: function(data) {
+                if(data.url_upload){
+                    _showValidateError($('#url_upload'), data.url_upload);
+                }else if(data.status == "failure"){
+                     Dml.fun.showTipsDialog({
+                        title: '上传失败',
+                        h2: data.msg
+                    });
+                }else if(data.status == "success"){
+                    Dml.fun.showTipsDialog({
+                        title: '上传成功',
+                        h2: '视频URL成功！'
+                    });
+                    setTimeout(function(){window.location.href = window.location.href;},1500);
+                }
+            },
+            complete: function(XMLHttpRequest){
+                _self.val("上传");
+                _self.removeAttr("disabled");
+            }
+        });
+    });
+    </script>
+{% endblock %}

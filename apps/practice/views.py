@@ -1,4 +1,6 @@
-from django.shortcuts import render
+import json
+
+from django.shortcuts import render, HttpResponse
 from django.views.generic.base import View
 from pure_pagination import Paginator, EmptyPage, PageNotAnInteger
 
@@ -71,10 +73,35 @@ class PraticeInfoView(View):
     def get(self, request, choice_id):
         choice_question = ChoiceQuestion.objects.get(id=int(choice_id))
 
-        choice_num = Choice.objects.get(choicequestion_id=choice_id)
+        print(choice_question)
+        print(choice_id)
+
+        choice_title = Choice.objects.filter(choicequestion_id=choice_id)
+        this_question = Choice.objects.get(id=1)
+        last_question = Choice.objects.all().order_by("-id")[:1]
+        print(last_question)
+
 
         return render(request, 'practice-choice-detail.html', {
             "choice_question": choice_question,
-            "choice_num": choice_num,
+            "choice_title": choice_title,
+            "this_question": this_question,
+            "last_question": last_question,
+            "choice_id":choice_id,
         })
+
+
+
+class NextQuestionView(View):
+    '''
+    下一题
+    '''
+    def post(self, request):
+        this_question = request.POST.get("practice_num", 0)
+        next_question = int(this_question) + 1
+
+        value = {"status":"success", "next_question":next_question}
+
+        return HttpResponse(json.dumps(value), content_type='application/json')
+
 

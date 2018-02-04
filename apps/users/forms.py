@@ -6,6 +6,7 @@ from django import forms
 from captcha.fields import CaptchaField
 
 from .models import UserProfile
+from operation.models import TeacherUpload
 
 
 class LoginForm(forms.Form):
@@ -40,3 +41,14 @@ class UserInfoForm(forms.ModelForm):
         model = UserProfile
         fields = ['nick_name', 'gender', 'birthday', 'address', 'mobile']
 
+
+class TeacherUploadForm(forms.Form):
+    url_upload = forms.URLField(required=True)
+    course = forms.CharField(required=True)
+    lesson = forms.CharField(required=True)
+
+
+# class TeacherUploadForm(forms.ModelForm):
+#     class Meta:
+#         model = TeacherUpload
+#         fields = ['upload_url']

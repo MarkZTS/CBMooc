@@ -8,7 +8,7 @@ from django.conf.urls import url
 
 from .views import UserInfoView, UploadImageView, UpdatePwdView, SendEmailCodeView
 from .views import UpdateEmailView, MyCourseView, MyFavTeacherView, MyFavCourseView, MymessageView
-from .views import MyworkView
+from .views import MyworkView, MyuploadView, AlreadyUploadView, AdoptUrlView
 
 urlpatterns = [
     # 用户信息
@@ -31,4 +31,11 @@ urlpatterns = [
     url(r'^mymessage/$', MymessageView.as_view(), name="mymessage"),
     # 我的作业
     url(r'^mywork/$', MyworkView.as_view(), name="mywork"),
+    # 上传视频
+    url(r'^myupload/url/$', MyuploadView.as_view(), name="myupload"),
+    # 我的上传视频
+    url(r'^already/url/$', AlreadyUploadView.as_view(), name="already_upload"),
+    # 我通过上传视频
+    url(r'^adopt/url/$', AdoptUrlView.as_view(), name="adopt_url"),
+
 ]

@@ -13,11 +13,11 @@ from django.core.urlresolvers import reverse
 
 from .models import UserProfile, EmailVerifyRecord, Banner
 from .forms import LoginForm, RegisterFrom, ForgetPwdFrom, ModifyPwdFrom, UploadImageForm
-from .forms import UserInfoForm
+from .forms import UserInfoForm, TeacherUploadForm
 from utils.email_send import send_register_email
 from utils.mixin_utils import LoginRequiredMixin
 from utils import onlineEXEC
-from operation.models import UserCourse, UserFavorite, UserMessage, UserTeacher
+from operation.models import UserCourse, UserFavorite, UserMessage, UserTeacher, TeacherUpload
 from teachers.models import Teacher
 from courses.models import Course
 
@@ -170,8 +170,12 @@ class UserInfoView(LoginRequiredMixin, View):
         return render(request, 'usercenter-info.html', {"obj":obj})
 
     def post(self, request):
+        print(request.POST)
         user_info_form = UserInfoForm(request.POST, instance=request.user)
+        print(user_info_form)
         if user_info_form.is_valid():
+            upload_url = request.POST.get("upload_url", '')
+
             user_info_form.save()
             return HttpResponse('{"status":"success"}', content_type='application/json')
         else:
@@ -298,6 +302,87 @@ class MyworkView(LoginRequiredMixin, View):
             return render(request, 'usercenter-mywork.html')
         else:
             return render(request, 'usercenter-teacher-mywork.html', {})
+
+
+class MyuploadView(LoginRequiredMixin, View):
+    '''老师登陆，上传视频url'''
+    def get(self, request):
+        try:
+            teacher = UserTeacher.objects.get(user=request.user).teacher
+            print(teacher)
+        except UserTeacher.DoesNotExist:
+            pass
+        else:
+            return render(request, 'usercenter-teahcer-myupload.html', {})
+
+    def post(self, request):
+        print('---进来----')
+
+        upload_url = TeacherUploadForm(request.POST)
+        print(upload_url)
+        is_success = False
+        # print(upload_url.cleaned_data['url_upload'])
+
+        if upload_url.is_valid():
+            is_success = True
+            print("1")
+            upload_url = upload_url.cleaned_data['url_upload']
+            # upload_url = request.POST.get("upload_url", "")
+            course = request.POST.get("course", "")
+            lesson = request.POST.get("lesson", "")
+            # course = upload_url.cleaned_data['course']
+            # lesson = upload_url.cleaned_data['lesson']
+            teacher_user = TeacherUpload()
+            teacher_user.user = request.user
+            teacher_user.upload_url = upload_url
+            teacher_user.course = course
+            teacher_user.lesson = lesson
+            print("upload_url",upload_url)
+            print("11",teacher_user.upload_url, "11")
+            teacher_user.save()
+            return HttpResponse('{"status":"success"}', content_type='application/json')
+        else:
+            print("2")
+            print(json.dumps(upload_url.errors))
+            return HttpResponse(json.dumps(upload_url.errors), content_type='application/json')
+
+
+class AlreadyUploadView(LoginRequiredMixin, View):
+    '''已传URL'''
+    def get(self, request):
+        already_url = TeacherUpload.objects.filter(user=request.user.id)
+
+        # 对已上传的URL进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(already_url, 6, request=request)
+
+        already_url = p.page(page)
+        return render(request, "usercenter-teahcer-alreadyupload.html", {
+            "already_url":already_url
+        })
+
+
+class AdoptUrlView(LoginRequiredMixin, View):
+    '''已通过的URL'''
+    def get(self, request):
+        adopt_url = TeacherUpload.objects.filter(user=request.user.id, is_adopt=True)
+
+        # 对已上传的URL进行分页
+        try:
+            page = request.GET.get('page', 1)
+        except PageNotAnInteger:
+            page = 1
+
+        p = Paginator(adopt_url, 6, request=request)
+
+        adopt_url = p.page(page)
+        return render(request, "usercenter-teahcer-adoptupload.html", {
+            "adopt_url": adopt_url
+        })
 
 
 class IndexView(View):

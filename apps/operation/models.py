@@ -83,3 +83,20 @@ class UserTeacher(models.Model):
         verbose_name = "讲师用户"
         verbose_name_plural = verbose_name
 
+
+class TeacherUpload(models.Model):
+    '''教师上传视频链接'''
+    user = models.ForeignKey(UserProfile, verbose_name="讲师用户")
+    course = models.CharField(max_length=30, verbose_name="课程")
+    lesson = models.CharField(max_length=30, verbose_name="章节")
+    upload_url = models.URLField(max_length=200, verbose_name="视频地址")
+    is_adopt = models.BooleanField(default=False, verbose_name="是否通过")
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = "上传视频"
+        verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.upload_url
+

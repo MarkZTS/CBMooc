@@ -4,7 +4,7 @@
 # @Software: PyCharm
 import xadmin
 
-from .models import UserAsk, UserCourse, UserMessage, CourseComment, UserFavorite, UserTeacher
+from .models import UserAsk, UserCourse, UserMessage, CourseComment, UserFavorite, UserTeacher, TeacherUpload
 
 
 class UserAskAdmin(object):
@@ -44,9 +44,16 @@ class UserTeacherAdmin(object):
     pass
 
 
+class TeacherUploadAdmin(object):
+    list_display = ['upload_url', 'user', 'course', 'lesson', 'is_adopt', 'add_time']
+    search_fields = ['upload_url', 'user', 'course', 'lesson', 'is_adopt']
+    list_filter = ['upload_url', 'user', 'course', 'lesson', 'is_adopt', 'add_time']
+
+
 xadmin.site.register(UserAsk, UserAskAdmin)
 xadmin.site.register(UserCourse, UserCourseAdmin)
 xadmin.site.register(UserMessage, UserMessageAdmin)
 xadmin.site.register(CourseComment, CourseCommentAdmin)
 xadmin.site.register(UserFavorite, UserFavoriteAdmin)
-# xadmin.site.register(UserTeacher, UserTeacherAdmin)
+xadmin.site.register(UserTeacher)
+xadmin.site.register(TeacherUpload, TeacherUploadAdmin)

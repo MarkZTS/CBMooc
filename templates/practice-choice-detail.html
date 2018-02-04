@@ -26,17 +26,17 @@
         <div class="wp">
 
             <div class="question">
-                <div class="title">{{ choice_num.id }}:&nbsp{{ choice_question.name }}</div>
+                <div class="title">{{ this_question.id }}:&nbsp{{ this_question.choice_name }}</div>
                 <ul class="choices" id="choices">
-                    <li><i></i>A:{{ question.choiceA }}</li>
-                    <li><i></i>B:{{ question.choiceB }}</li>
-                    <li><i></i>C:{{ question.choiceC }}</li>
-                    <li><i></i>D:{{ question.choiceD }}</li>
+                    <li><i></i>A:{{ this_question.choiceA }}</li>
+                    <li><i></i>B:{{ this_question.choiceB }}</li>
+                    <li><i></i>C:{{ this_question.choiceC }}</li>
+                    <li><i></i>D:{{ this_question.choiceD }}</li>
                 </ul>
                 <div style="color:#F00" id="show_detail"></div>
                 <div class="collect" id="collect"><i></i>收藏本题</div>
                 <div class="button-group">
-                    {% if is_last_question %}
+                    {% if last_question %}
                         <button class="submit" id="submit">交卷</button>
                     {% else %}
                         <button class="submit" id="submit">提前交卷</button>
@@ -67,52 +67,52 @@
                 $(this).toggleClass("collectok")
             })
             //  点击提前交卷或者交卷
-            $("#submit").on("click", function () {
-                //  num是选择的答案的序号
-                var num = $(".choose").index();
-                var cur_question_num = {{ question.question_num }};
-                $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: "{% url 'practice:choice_detail_submit' %}",
-                    data: {'user_answer': num, 'practice_num':cur_question_num,'practice_bank_id':{{ practice_bank_id }}},
-                    async: true,
-                    beforeSend: function (xhr, settings) {
-                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
-                    },
-                    success: function (data) {
-                        console.log(data)
-                        if(data.msg=='提交成功')
-                            window.location.href = "{% url 'practice:practice_choice_result' practice_bank_id question.question_num %}";
-                        else
-                            $("#show_detail").innerHTML = '请选择一个答案'
-                    }
-                })
-            });
+            {#$("#submit").on("click", function () {#}
+            {#    //  num是选择的答案的序号#}
+            {#    var num = $(".choose").index();#}
+            {#    var cur_question_num = {{ this_question.id }};#}
+            {#    $.ajax({#}
+            {#        cache: false,#}
+            {#        type: "POST",#}
+            {#        url: "{% url 'practice:choice_detail_submit' %}",#}
+            {#        data: {'user_answer': num, 'practice_num':cur_question_num,'practice_bank_id':{{ practice_bank_id }}},#}
+            {#        async: true,#}
+            {#        beforeSend: function (xhr, settings) {#}
+            {#            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");#}
+            {#        },#}
+            {#        success: function (data) {#}
+            {#            console.log(data)#}
+            {#            if(data.msg=='提交成功')#}
+            {#                window.location.href = "{% url 'practice:practice_choice_result' practice_bank_id question.question_num %}";#}
+            {#            else#}
+            {#                $("#show_detail").innerHTML = '请选择一个答案'#}
+            {#        }#}
+            {#    })#}
+            {#});#}
             //  点击下一题
-            $("#next").on("click", function () {
-                //  num是选择的答案的序号
-                var num = $(".choose").index();
-
-                var cur_question_num = {{ question.question_num }};
-                $.ajax({
-                    cache: false,
-                    type: "POST",
-                    url: "{% url 'practice:choice_detail_submit' %}",
-                    data: {'user_answer': num, 'practice_num':cur_question_num,'practice_bank_id':{{ practice_bank_id }}},
-                    async: true,
-                    beforeSend: function (xhr, settings) {
-                        xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");
-                    },
-                   success: function (data) {
-
-                        if(data.status=='success')
-                            window.location.href = "{% url 'practice:practice_choice_detail' practice_bank_id next_practice_num %}";
-                        else
-                            $("#show_detail").text('请选择一个答案')
-                    }
-                })
-            })
+            {#$("#next").on("click", function () {#}
+            {#    //  num是选择的答案的序号#}
+            {#    var num = $(".choose").index();#}
+            {##}
+            {#    var cur_question_num = {{ this_question.id }};#}
+            {#    $.ajax({#}
+            {#        cache: false,#}
+            {#        type: "POST",#}
+            {#        url: "{% url 'practice:next_question' %}",#}
+            {#        data: {'user_answer': num, 'practice_num':cur_question_num,'practice_bank_id':{{ choice_id }}},#}
+            {#        async: true,#}
+            {#        beforeSend: function (xhr, settings) {#}
+            {#            xhr.setRequestHeader("X-CSRFToken", "{{ csrf_token }}");#}
+            {#        },#}
+            {#       success: function (data) {#}
+            {##}
+            {#            if(data.status=='success')#}
+            {#                window.location.href = "{% url 'practice:practice_info' practice_bank_id next_practice_num %}";#}
+            {#            else#}
+            {#                $("#show_detail").text('请选择一个答案')#}
+            {#        }#}
+            {#    })#}
+            {#})#}
         })
     </script>
 {% endblock %}

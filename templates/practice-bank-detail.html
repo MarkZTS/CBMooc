@@ -7,7 +7,7 @@
             <div class="crumbs">
                 <ul>
                     <li><a href="/">首页</a>></li>
-                    <li><a href="{% url 'practice:list' %}">在线练习</a>></li>
+                    <li><a href="{% url 'practice:practice_list' %}">在线练习</a>></li>
                     <li>题库详情</li>
                 </ul>
             </div>
@@ -52,7 +52,7 @@
                                     收藏
                                 </div>
                             <div class="buy btn"><a style="color: white"
-                                                            href="# ">开始练习</a>
+                                                            href="{% url 'practice:practice_info' choice_question.id %}">开始练习</a>
                                     </div>
 {#                                {% ifequal question_bank.get_type_display '选择题' %}#}
 {#                                    <div class="buy btn"><a style="color: white"#}

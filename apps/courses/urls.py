@@ -6,6 +6,7 @@
 from django.conf.urls import url
 
 from .views import CourseListView, CourseDetailView, AddFavView, CourseInfoView, CommentsView, AddCommentsView
+from .views import CoursePlayView
 
 urlpatterns = [
     # 课程列表页
@@ -14,6 +15,8 @@ urlpatterns = [
     url(r'^detail/(?P<course_id>\d+)/$', CourseDetailView.as_view(), name="course_detail"),
     # 章节信息页
     url(r'^info/(?P<course_id>\d+)/$', CourseInfoView.as_view(), name="course_info"),
+    # 章节信息页
+    url(r'^play/(?P<course_id>\d+)/(?P<video_id>\d+)/$', CoursePlayView.as_view(), name="course_play"),
     # 课程评论
     url(r'^commment/(?P<course_id>\d+)/$', CommentsView.as_view(), name="course_comment"),
     # 添加课程评论
