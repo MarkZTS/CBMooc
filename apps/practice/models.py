@@ -3,12 +3,14 @@ from datetime import datetime
 from django.db import models
 
 from courses.models import Lesson, Course
+from users.models import UserProfile
 
 # Create your models here.
 
 
 class ChoiceQuestion(models.Model):
-    name = models.CharField(max_length=50, verbose_name="选择题目")
+    '''题库'''
+    name = models.CharField(max_length=50, verbose_name="题库名")
     desc = models.CharField(max_length=120, null=True, blank=True, verbose_name="题库描述")
     students = models.IntegerField(default=0, verbose_name="练习人数")
     fav_nums = models.IntegerField(default=0, verbose_name="收藏人数")
@@ -35,12 +37,20 @@ class ChoiceQuestion(models.Model):
 
 
 class Choice(models.Model):
-    choicequestion = models.ForeignKey(ChoiceQuestion, verbose_name="选择题目")
+    '''选择题'''
+    choicequestion = models.ForeignKey(ChoiceQuestion, verbose_name="题库题目")
     choice_name = models.CharField(max_length=50, verbose_name="选项题目")
     choiceA = models.CharField(max_length=50, verbose_name="选项A")
     choiceB = models.CharField(max_length=50, verbose_name="选项B")
     choiceC = models.CharField(max_length=50, verbose_name="选项C")
     choiceD = models.CharField(max_length=50, verbose_name="选项D")
+    right_choices = (
+        (0, "A"),
+        (1, "B"),
+        (2, "C"),
+        (3, "D"),
+    )
+    right_choice = models.SmallIntegerField(choices=right_choices, verbose_name="正确答案", default=0)
     add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
 
     class Meta:
@@ -70,3 +80,17 @@ class Programming(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class ErrorQuestion(models.Model):
+    '''错题收集'''
+    user = models.ForeignKey(UserProfile, verbose_name="用户", null=True, blank=True)
+    choicequestion = models.ForeignKey(ChoiceQuestion, verbose_name="题库题目", null=True, blank=True)
+    choice = models.ForeignKey(Choice, verbose_name="选择题", null=True, blank=True)
+    add_time = models.DateTimeField(default=datetime.now, verbose_name="添加时间")
+
+    class Meta:
+        verbose_name = "错题集"
+        verbose_name_plural = verbose_name
+
+

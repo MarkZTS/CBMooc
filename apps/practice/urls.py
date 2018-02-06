@@ -5,7 +5,7 @@
 
 from django.conf.urls import url, include
 
-from .views import PraticeListView, PracticeDetailView, PraticeInfoView, NextQuestionView
+from .views import PraticeListView, PracticeDetailView, PraticeInfoView, NextQuestionView, ResultView
 
 urlpatterns = [
     # 在线练习列表
@@ -15,8 +15,11 @@ urlpatterns = [
     url(r'^detail/(?P<choice_id>\d+)/$', PracticeDetailView.as_view(), name='practice_detail'),
 
     # 在线练习做题详情
-    url(r'^info/(?P<choice_id>\d+)/$', PraticeInfoView.as_view(), name='practice_info'),
+    url(r'^info/(?P<choice_id>\d+)/(?P<question_id>\d+)/$', PraticeInfoView.as_view(), name='practice_info'),
 
     # 在线练习下一题
     url(r'^next/$', NextQuestionView.as_view(), name='next_question'),
+
+    # 在线练习提交
+    url(r'^result/(?P<choice_id>\d+)/$', ResultView.as_view(), name='practice_result'),
 ]

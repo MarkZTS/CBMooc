@@ -11,7 +11,7 @@
                 <ul>
                     <li><a href="/">首页</a>></li>
                     <li><a href="{% url 'practice:practice_list' %}">在线练习</a>></li>
-                    <li><a href="{% url 'practice:practice_detail' choice_id %}">题库详情</a>></li>
+                    <li><a href="{% url 'practice:practice_bank_detail' question_bank.id %}">题库详情</a>></li>
                     <li>答题结果</li>
                 </ul>
             </div>
@@ -26,9 +26,9 @@
         <div class="wp">
             <p>{{ question_bank.name }}</p>
 
-            <p style="padding: 25px 0;color: red;font-size: 23px">答对：{{ right_nums }}</p>
-            <p style="color: red;font-size: 23px">正确率：{{ right_rate }}%</p>
-            {% ifequal right_rate 100 %}
+            <p style="padding: 25px 0;color: red;font-size: 23px">答对：{{ score }}</p>
+            <p style="color: red;font-size: 23px">正确率：{{ correct_percent }}%</p>
+            {% ifequal correct_percent 100 %}
                 <p style="padding: 25px 0 25px 0">恭喜你 全部答对 学的棒棒哒</p>
                 <img src="{% static 'images/smile.jpeg' %}" alt="得分图片" style="height: 50px;padding: 20px 0">
             {% else %}

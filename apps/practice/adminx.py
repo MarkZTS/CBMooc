@@ -5,7 +5,8 @@
 
 import xadmin
 
-from .models import ChoiceQuestion, Programming, Choice
+from .models import ChoiceQuestion, Programming, Choice, ErrorQuestion
+
 
 class ChoiceQuestionAdmin(object):
     list_display = ['name', 'students', 'fav_nums', 'pratice_times', 'click_nums', 'image',
@@ -17,9 +18,9 @@ class ChoiceQuestionAdmin(object):
 
 
 class ChoiceAdmin(object):
-    list_display = ['choicequestion', 'choice_name', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'add_time']
-    search_fields = ['choicequestion', 'choice_name', 'choiceA', 'choiceB', 'choiceC', 'choiceD']
-    list_filter = ['choicequestion', 'choice_name', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'add_time']
+    list_display = ['choicequestion', 'choice_name', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'right_choice', 'add_time']
+    search_fields = ['choicequestion', 'choice_name', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'right_choice']
+    list_filter = ['choicequestion', 'choice_name', 'choiceA', 'choiceB', 'choiceC', 'choiceD', 'right_choice', 'add_time']
 
 
 class ProgrammingAdmin(object):
@@ -31,6 +32,13 @@ class ProgrammingAdmin(object):
                     'image', 'lesson__name', 'course__name', 'add_time']
 
 
+class ErrorQuestionAdmin(object):
+    list_display = ['user', 'choicequestion', 'choice', 'add_time']
+    search_fields = ['user', 'choicequestion', 'choice']
+    list_filter = ['user', 'choicequestion', 'choice', 'add_time']
+
+
 xadmin.site.register(ChoiceQuestion, ChoiceQuestionAdmin)
 xadmin.site.register(Choice, ChoiceAdmin)
 xadmin.site.register(Programming, ProgrammingAdmin)
+xadmin.site.register(ErrorQuestion, ErrorQuestionAdmin)
